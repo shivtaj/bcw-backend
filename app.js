@@ -1,31 +1,3 @@
-// const Config = require('./config/config');
-// const db = require('./models/db');
-//  require('./config/passportConfig');
-
-// const express = require('express');
-// const bodyParser = require('body-parser');
-// const passport = require('passport');
-// const usrRoute = require('./route/index.router');
-// const nodemailer = require('nodemailer');
-// const cors = require("cors")
-// var app = express();
-// var crypto = require('crypto');
-
-// app.use(bodyParser.json());
-// app.use(cors());
-// app.use('/api',usrRoute);
-// app.use(passport.initialize());
-
-// app.use((err, req, res, next) =>{
-//     if(err.name == 'ValidationError'){
-//         var valErrors =[];
-//        Object.keys(err.errors).forEach(Key  => valErrors.push(err.errors[Key].message));
-//        res.status(422).send(valErrors)    
-//     }
-// });
-
-
-// app.listen(process.env.PORT,() =>console.log(`app is running on port: ${process.env.PORT}`));
 
 const Config = require('./config/config');
 const db = require('./models/db');
@@ -40,6 +12,18 @@ const nodemailer = require('nodemailer');
 
 const cors = require("cors")
 var crypto = require('crypto');
+const multer = require('multer');
+
+const storage = multer.diskStorage({
+    destination: (req, file, callBack)=>{
+        callBack(null, 'uploads')
+    },
+    filename: (req, file, callBack)=>{
+        callBack(null,`fileUpload_${file.originalname}`)
+    },
+})
+
+var upload = multer({storage: storage})
 
 const app = express();
 
@@ -54,10 +38,22 @@ app.use(bodyParser.json());
 app.use(cors());
 app.use('/api',usrRoute);
 
-app.use('/file-upload',(req, res) =>{
-    console.log('time is running');
-    res.send('delta123');
-})
+// file upload
+app.post('/fileupload',  upload.single('file'),(req, res, next)=>{
+
+    const file = req.file;
+    console.log(file.filename);
+    if(!file){
+        const error = new Error('please upload the file');
+        error.httpStatusCode =400
+        return next(error)
+    }
+    res.send(file);
+});
+// end
+
+
+
 app.use(passport.initialize());
 
 // Static folder

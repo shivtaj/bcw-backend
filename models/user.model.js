@@ -39,6 +39,10 @@ var userSchema = new mongoose.Schema({
         required:'password can not be empty',
         minlength:[4,'password must be altleast for 4 character']
     },
+    caption:{
+        type:String,
+        required:'caption can not be empty',
+    },
     image:{
         data: Buffer, 
         contentType: String,
@@ -77,11 +81,5 @@ userSchema.methods.generateJwt = function () {
             expiresIn: process.env.JWT_EXP
         });
 }
-
-// userSchema.get('save',function(next){
-//     check = Math.floor(100000 + Math.random() * 900000);
-//     this.randomNumber = check;
-
-// })
 
 module.export = mongoose.model('User', userSchema);  
