@@ -45,6 +45,10 @@ app.use(bodyParser.json());
 
 // try email
 
+let toMail = 'manishbcw12@gmail.com,latika12@gmail.com';
+let subject = 'Enter subject line here';
+let text = "Enter email content." 
+
 app.post('/email',(req, res, next) => {
     console.log('send mail working');
 
@@ -57,11 +61,19 @@ app.post('/email',(req, res, next) => {
   }
 });
     let mailOptions = {
-        from: '"Krunal Lathiya" <shivtaj1997@gmail.com>', // sender address
-        to: req.body.email, // list of receivers
-        subject: req.body.subject, // Subject line
-        text: req.body.text, // plain text body
-        html: '<b>NodeJS Email Tutorial</b>' // html body
+        from: req.body.email,
+        to: toMail,
+        subject: subject,
+        text: text
+
+
+
+
+        // from: '"Krunal Lathiya" <shivtaj1997@gmail.com>', // sender address
+        // to: req.body.email, // list of receivers
+        // subject: req.body.subject, // Subject line
+        // text: req.body.text, // plain text body
+        // html: '<b>NodeJS Email Tutorial</b>' // html body
     };
     console.log(req.body.to);
 
@@ -69,7 +81,8 @@ app.post('/email',(req, res, next) => {
         if (error) {
             return console.log(error);
         }
-        console.log('Message %s sent: %s', info.messageId, info.response);
+        console.log(info);
+        // console.log('Message %s sent: %s', info.messageId, info.response);
         res.json({
             message: "Email successfully sent."
           });
