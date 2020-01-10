@@ -42,41 +42,6 @@ module.exports.register = (req, res, next) =>{
  
  }
 
-// module.exports.register = (req, res, next) =>{
-//    var user = new User();
-//        user.fullName = req.body.fullName;
-//        user.fatherName = req.body.fatherName;
-//        user.course = req.body.course;
-//        user.courseJoin = req.body.courseJoin;
-//        user.courseEnd = req.body.courseEnd;
-//        user.dob = req.body.dob;
-//        user.email = req.body.email;
-//        user.password = req.body.password;
-//        user.caption  = req.body.caption;
-//        user.image = req.body.file;
-//        user.generate =  Math.floor(Math.random() * 100000000 + 1);
-
-//        console.log(req.body.image);
-
-    
-//        user.save((err, doc) =>{
-//            if(!err){
-//             console.log(doc);
-//                return res.status(200).json({ "Your registration number is ": user.generate });
-//                res.send(doc);
-//            }
-//            else{
-//            console.log(err);
-//            if(err.code==11000){
-//                res.status(422).send(['duplicate errorr found']);
-//            }else{
-//              return next(err);
-//            }
-
-//            }
-//        });
-
-// }
 module.exports.authenticate = (req, res, next) => {
     // call for passport authentication
     passport.authenticate('local', (err, user, info) => {
